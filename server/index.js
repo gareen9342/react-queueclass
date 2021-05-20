@@ -1,5 +1,6 @@
 const express = require('express');
 const cookieParser = require("cookie-parser");
+const mongoose = require("mongoose");
 
 const port = 5000;
 
@@ -10,6 +11,19 @@ const APIrouter = express.Router();
 //parser , cors, cookieparser 세팅
 app.use(express.json())
 app.use(cookieParser())
+
+// parser -> mongodb connect -> passport -> APIrouter -> server
+mongoose.connect("mongodb://localhost:27017/queueclass", {
+    useNewUrlParser : true, useUnifiedTopology : true, useCreateIndex : true, useFindAndModify : false
+}, (err) => {
+    if(err){
+        console.error(`system could not connect to mongo server`)
+    }else{
+        console.log(`mongo db connnection succeed`)
+    }
+})
+
+
 
 // API router 쪼갤게 많진 않지만 일단 이렇게 분리했다
 require("./routes/.apirouter.js")(APIrouter);
