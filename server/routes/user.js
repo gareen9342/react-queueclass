@@ -17,7 +17,6 @@ module.exports = (app) => {
         success: true,
       });
     });
-    console.log("here");
   });
   // ============ 로그인 ============//
   app.post("/login", (req, res) => {
@@ -26,7 +25,6 @@ module.exports = (app) => {
       if (err) {
         return console.error(err);
       }
-      // res.send({ email: user.email });
       if (!user) {
         return res.status(400).send("user is not found");
       }
@@ -35,14 +33,13 @@ module.exports = (app) => {
           res.send(err);
         }
         const token = signToken(user);
-        console.log("token=", token);
+        // console.log("token=", token);
         return res.json({ user, token });
       });
     })(req, res);
   });
   // ============ 회원정보 가져오기 ============//
   app.get("/user", (req, res, next) => {
-    console.log(req.body);
     passport.authenticate("jwt", { session: false }, function (err, user) {
       if (err) {
         res.send(err);
