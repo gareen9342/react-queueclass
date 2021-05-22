@@ -11,6 +11,8 @@ module.exports = (app) => {
       password: "1234",
       email: "imsiemail@email.com",
     });
+    console.log(req.body);
+    return;
     user.save((err, doc) => {
       if (err) return res.json({ success: false, err: err.message });
       return res.status(200).json({
