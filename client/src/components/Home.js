@@ -1,7 +1,11 @@
 import React from "react";
-
+import Container from "@material-ui/core/Container";
 function Home() {
-  return <div>home</div>;
+  return (
+    <Container style={{ minHeight: "100vh" }} component="main">
+      home
+    </Container>
+  );
 }
 
 export default Home;
