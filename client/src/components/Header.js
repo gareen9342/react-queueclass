@@ -14,9 +14,7 @@ import {
 import HomeIcon from "@material-ui/icons/Home";
 const useStyles = makeStyles((theme) => ({
   root: {
-    // display: "flex",
-
-    background: "orange",
+    background: "#aaf0d1",
   },
   homeLink: {
     flexGrow: 1,
@@ -52,7 +50,12 @@ function Header() {
   return (
     <AppBar position="static" className={classes.root}>
       <Toolbar>
-        <Link to="/" className={classes.homeLink} edge="start">
+        <Link
+          to="/"
+          className={classes.homeLink}
+          edge="start"
+          style={{ color: "#fff" }}
+        >
           <HomeIcon />
         </Link>
         {isLoggedIn ? (
@@ -85,7 +88,9 @@ function Header() {
         ) : (
           <div>
             <MenuItem onClick={handleClose}>
-              <Link to="/login">login</Link>
+              <Link to="/login" style={{ color: "#fff" }}>
+                login
+              </Link>
             </MenuItem>
           </div>
         )}
