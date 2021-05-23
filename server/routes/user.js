@@ -6,18 +6,23 @@ const mongoose = require("mongoose"),
 module.exports = (app) => {
   // ============ 회원가입 ============//
   app.post("/user", (req, res) => {
-    const user = new User({
-      name: "name",
-      password: "1234",
-      email: "imsiemail@email.com",
-    });
-    console.log(req.body);
-    return;
-    user.save((err, doc) => {
-      if (err) return res.json({ success: false, err: err.message });
-      return res.status(200).json({
-        success: true,
-      });
+    const user = new User(req.body);
+
+    User.countDocuments({ email: req.body.email }, (err, count) => {
+      // 디비에 이메일을 가진 유저가 없으면 회원가입 진행
+      if (count === 0) {
+        user.save((err, doc) => {
+          if (err) return res.json({ success: false, err: err.message });
+          return res.status(200).json({
+            success: true,
+          });
+        });
+      } else {
+        return res.json({
+          success: false,
+          errorMessage: "이미 동일한 이메일을 가진 유저가 존재합니다. ",
+        });
+      }
     });
   });
   // ============ 로그인 ============//
@@ -28,15 +33,19 @@ module.exports = (app) => {
         return console.error(err);
       }
       if (!user) {
-        return res.status(400).send("user is not found");
+        return res.json({
+          success: false,
+          errorMessage: "유저가 존재하지 않습니다. ",
+        });
       }
       req.login(user, { session: false }, (err) => {
         if (err) {
-          res.send(err);
+          console.log(err);
+          return res.send(err);
         }
         const token = signToken(user);
-        // console.log("token=", token);
-        return res.json({ user, token });
+
+        return res.json({ success: true, user, token });
       });
     })(req, res);
   });

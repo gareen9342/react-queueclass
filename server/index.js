@@ -10,7 +10,8 @@ const app = express();
 const APIrouter = express.Router();
 
 // parser -> mongodb connect -> passport -> APIrouter -> server
-//parser , cors, cookieparser 세팅
+
+// parser , cors, cookieparser 세팅
 app.use(express.json());
 app.use(cookieParser());
 
