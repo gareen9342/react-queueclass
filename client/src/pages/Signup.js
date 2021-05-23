@@ -45,13 +45,13 @@ function Copyright() {
   );
 }
 
-const Signup = () => {
+const Signup = (props) => {
   const classes = useStyles();
 
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
-
+  const [errorMessage, setErrorMessage] = useState("");
   /*
     리액트는 가상으로 만들어진 돔이라서 id선택자 같은걸로 돔을 선택하려면 추가적으로 useRef라는 개념을 설명해야해서..ㅠ ㅠ
     결국 훅개념을 가지고 왔어요...
@@ -69,8 +69,19 @@ const Signup = () => {
   };
   const onSubmitSignup = async (e) => {
     e.preventDefault();
-    const res = await userService.signUp({ email, password, name });
-    console.log(res);
+    try {
+      const { data: res } = await userService.signUp({ email, password, name });
+
+      if (res.success === true) {
+        alert("회원가입에 성공했습니다. 로그인 페이지로 이동합니다. ");
+        props.history.push("/login");
+      }
+      if (res.success === false) {
+        setErrorMessage(res.errorMessage);
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
   return (
     <>
@@ -83,6 +94,9 @@ const Signup = () => {
           <Typography component="h1" variant="h5">
             회원가입
           </Typography>
+          <br />
+          <p style={{ color: "red" }}>{errorMessage}</p>
+          <br />
           <form>
             <Input
               className={classes.input}

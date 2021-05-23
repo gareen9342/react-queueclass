@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
+import UserContext from "../components/UserContext";
 import { Link } from "react-router-dom";
 import {
   AppBar,
@@ -18,14 +19,29 @@ const useStyles = makeStyles((theme) => ({
   },
   homeLink: {
     flexGrow: 1,
+    color: "#fff",
     marginRight: theme.spacing(2),
   },
+  menuList: {
+    color: "#666",
+  },
 }));
+
 function Header() {
   const classes = useStyles();
+  const { isLoggedIn, signUserOut } = useContext(UserContext);
+
   const [open, setOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const anchorRef = React.useRef(null);
+  const anchorRef = React.useRef();
+  const prevOpen = React.useRef(open);
+
+  useEffect(() => {
+    if (prevOpen.current === true && open === false) {
+      anchorRef.current.focus();
+    }
+    prevOpen.current = open;
+  }, [open]);
+
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);
   };
@@ -34,30 +50,19 @@ function Header() {
     if (anchorRef.current && anchorRef.current.contains(event.target)) {
       return;
     }
-
     setOpen(false);
   };
 
-  const prevOpen = React.useRef(open);
-
-  useEffect(() => {
-    if (prevOpen.current === true && open === false) {
-      anchorRef.current.focus();
-    }
-
-    prevOpen.current = open;
-  }, [open]);
+  const onClickLogout = () => {
+    signUserOut();
+  };
   return (
     <AppBar position="static" className={classes.root}>
       <Toolbar>
-        <Link
-          to="/"
-          className={classes.homeLink}
-          edge="start"
-          style={{ color: "#fff" }}
-        >
+        <Link to="/" className={classes.homeLink}>
           <HomeIcon />
         </Link>
+        {console.log(isLoggedIn)}
         {isLoggedIn ? (
           <div>
             <Button
@@ -65,21 +70,25 @@ function Header() {
               aria-controls={open ? "menu-list-grow" : undefined}
               aria-haspopup="true"
               onClick={handleToggle}
+              style={{ color: "#fff" }}
             >
-              Toggle Menu Grow
+              Menu
             </Button>
             <Popper
               open={open}
               anchorEl={anchorRef.current}
-              role={undefined}
               transition
               disablePortal
             >
               <Paper>
                 <ClickAwayListener onClickAway={handleClose}>
-                  <MenuList autoFocusItem={open} id="menu-list-grow">
-                    <MenuItem onClick={handleClose}>Profile</MenuItem>
-                    <MenuItem onClick={handleClose}>Logout</MenuItem>
+                  <MenuList
+                    autoFocusItem={open}
+                    id="menu-list-grow"
+                    className={classes.menuList}
+                  >
+                    <MenuItem>write</MenuItem>
+                    <MenuItem onClick={onClickLogout}>Logout</MenuItem>
                   </MenuList>
                 </ClickAwayListener>
               </Paper>
@@ -87,7 +96,7 @@ function Header() {
           </div>
         ) : (
           <div>
-            <MenuItem onClick={handleClose}>
+            <MenuItem>
               <Link to="/login" style={{ color: "#fff" }}>
                 login
               </Link>
@@ -95,9 +104,6 @@ function Header() {
           </div>
         )}
       </Toolbar>
-
-      {/* 
-        <Link to="/signup">signup</Link> */}
     </AppBar>
   );
 }

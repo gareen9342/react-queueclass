@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState, useEffect } from "react";
 import UserContext from "../components/UserContext";
 import {
   Avatar,
@@ -10,6 +10,8 @@ import {
   makeStyles,
 } from "@material-ui/core";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import { useHistory } from "react-router";
+import UserService from "../service/userservice";
 
 function Copyright() {
   return (
@@ -39,9 +41,42 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 function Login() {
-  const { signUserIn } = useContext(UserContext);
   const classes = useStyles();
+  const history = useHistory();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const { signUserIn, isLoggedIn } = useContext(UserContext);
 
+  // useEffect(() => {
+  //   if (isLoggedIn) {
+  //     history.push("/");
+  //   }
+  // }, []);
+
+  const onChangeEmail = (e) => {
+    console.log(e.target.value);
+    setEmail(e.target.value);
+  };
+
+  const onChangePassword = (e) => {
+    console.log(e.target.value);
+    setPassword(e.target.value);
+  };
+
+  const onSubmitLogin = async (e) => {
+    e.preventDefault();
+    if (email !== "" && password !== "") {
+      const { data } = await UserService.signIn({ email, password });
+
+      if (data.success) {
+        signUserIn(data.user, data.token);
+        history.push("/");
+      } else {
+        setErrorMessage(data.errorMessage);
+      }
+    }
+  };
   return (
     <Container component="main" maxWidth="xs">
       <div className={classes.paper}>
@@ -51,13 +86,16 @@ function Login() {
         <Typography component="h1" variant="h5">
           로그인
         </Typography>
-        <form className={classes.form} noValidate>
+        <p style={{ color: "red" }}>{errorMessage}</p>
+        <form className={classes.form} onSubmit={onSubmitLogin}>
           <TextField
             required
             fullWidth
             name="email"
+            label="email"
             autoComplete="email"
             autoFocus
+            onChange={onChangeEmail}
           />
           <TextField
             required
@@ -67,6 +105,7 @@ function Login() {
             type="password"
             id="password"
             autoComplete="current-password"
+            onChange={onChangePassword}
           />
           <Button type="submit" fullWidth className={classes.submit}>
             로그인 하기
