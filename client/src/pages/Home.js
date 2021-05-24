@@ -21,7 +21,17 @@ function Home() {
     }
     return () => { if(loading) {setLoading(false)}}
   }, []);
-  return <Container component="main">{posts && posts.length > 0 && posts.map(x => <div key={x._id}>image = {x.image} content = {x.content}</div>)}</Container>;
+  return <Container component="main">
+    {posts && posts.length > 0 && posts.map(x => 
+      <div key={x._id}>
+        <div>
+          writer name : <p>{x.writer.name}</p>
+        </div>
+        <div><img src={`http://localhost:5000/${x.image}`}/> </div>
+        
+        <div><p>{x.content}</p></div>
+      </div>)}
+    </Container>;
 }
 
 export default Home;
