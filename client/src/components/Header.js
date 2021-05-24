@@ -87,7 +87,9 @@ function Header() {
                     id="menu-list-grow"
                     className={classes.menuList}
                   >
-                    <MenuItem>write</MenuItem>
+                    <MenuItem>
+                      <Link to="/write">write</Link>
+                    </MenuItem>
                     <MenuItem onClick={onClickLogout}>Logout</MenuItem>
                   </MenuList>
                 </ClickAwayListener>

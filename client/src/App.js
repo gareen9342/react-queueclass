@@ -9,6 +9,7 @@ import Signup from "./pages/Signup";
 import UserContext from "./components/UserContext";
 import NoMatch from "./pages/NoMatch";
 import Auth from "./hoc/auth";
+import Write from "./pages/Write";
 /**
  * 1. 서버에서 html + data 매번 호출힐 때 완전한 페이지 ( HTML문서 )를 서버로 전달받는 게 스프링
  * 근데 리액트는 빈 html을 자바스크립트로 유저와 상호작용을 통해 그 떄마다 필요한 로직을 통해 바꿔주는 식인데
@@ -53,6 +54,7 @@ function App() {
             <Route path="/" exact component={Auth(Home, true)} />
             <Route path="/login" exact component={Auth(Login, false)} />
             <Route path="/signup" exact component={Auth(Signup, false)} />
+            <Route path="/write" exact component={Auth(Write, true)} />
             <Route path="*">
               <NoMatch />
             </Route>
