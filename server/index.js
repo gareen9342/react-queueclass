@@ -5,13 +5,14 @@ const passport = require("passport");
 const cors = require("cors");
 const passportConfig = require("./config/passport");
 const port = 5000;
-
+const path = require("path");
 const app = express();
 const APIrouter = express.Router();
 
 // parser -> mongodb connect -> passport -> APIrouter -> server
 
 // parser , cors, cookieparser 세팅
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use(express.json());
 app.use(cookieParser());
 
@@ -44,7 +45,6 @@ app.use(
 // API router 쪼갤게 많진 않지만 일단 이렇게 분리했다
 require("./routes/.apirouter.js")(APIrouter);
 app.use("/api", APIrouter);
-
 // hello world
 app.get("/", (req, res) => {
   res.send("hi");
