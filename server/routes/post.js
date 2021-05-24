@@ -1,7 +1,9 @@
+const e = require("express");
 const Post = require("../models/Post"),
   fs = require("fs"),
-  path = require("path"),
-  multer = require("multer");
+  passport = require("passport"),
+  multer = require("multer"),
+  { auth } = require("../middleware/authenticate");
 
 module.exports = (app) => {
   try {
@@ -38,10 +40,30 @@ module.exports = (app) => {
     });
   });
   // post 업로드
-  app.post("/post", (req, res) => {
-    console.log("post");
+  app.post("/post", auth, (req, res, next) => {
+
+    const post = new Post({ image : req.body.image, content : req.body.content, writer : req.user._id});
+
+    post.save((err, doc) => {
+      if(err) return res.json({ success : false, err : err.message });
+      return res.json({
+        success : true
+      });
+    });
+
   });
+
   //get posts
+  app.get("/posts", auth, (req,res,next) => {
+    Post.find({deleted : 0}).sort({ createdAt : -1, _id : 1}).populate("writer").exec((err, result)=>{
+      console.log(result)
+      if(result){
+        res.json({success : true, data : result})
+      }else{
+        res.json({succcess :false, errorMessage : "데이터가 존재하지 않습니다. "})
+      }
+    });
+  });
 
   //get single post
 };

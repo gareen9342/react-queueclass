@@ -27,7 +27,7 @@ module.exports = (app) => {
   });
   // ============ 로그인 ============//
   app.post("/login", (req, res) => {
-    console.log(req.body);
+    // console.log(req.body);
     passport.authenticate("local", { session: false }, (err, user) => {
       if (err) {
         return console.error(err);
@@ -62,6 +62,6 @@ module.exports = (app) => {
   });
 
   const signToken = (user) => {
-    return jwt.sign(user.toJSON(), "imsisecret");
+    return jwt.sign({ id: user._id, email: user.email }, "imsisecret", {expiresIn : "1h"});
   };
 };

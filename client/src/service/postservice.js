@@ -21,4 +21,32 @@ PostService.uploadImage = async (file) => {
   }
   return resData;
 };
+
+PostService.uploadPost = async (token, data) => {
+  let resData = {};
+  const config = {
+    headers: {'Authorization': `Bearer ${token}`},
+  };
+  try {
+    resData = axios.post(`/post`, data, config);
+
+    console.log(resData);
+  } catch (error) {
+    console.error(error);
+  }
+  return resData;
+};
+
+PostService.getPosts = async (token) => {
+  let resData = {};
+  const config = {
+    headers: {'Authorization': `Bearer ${token}`},
+  };
+  try {
+    resData = await axios.get(`/posts`,config);
+  } catch (error) {
+    console.error(error);
+  }
+  return resData;
+}
 export default PostService;

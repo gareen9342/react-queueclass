@@ -45,21 +45,22 @@ module.exports = () => {
   );
 
   //======= JWT Strategy ======//
-
   passport.use(
     new JWTStrategy(
       {
         jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
         secretOrKey: "imsisecret",
       },
-      async (jwtPayload, done) => {
-        console.log(jwtPayload);
-        try {
-          const user = await User.findOne({ _id: jwtPayload._id });
-          done(null, user);
-        } catch (error) {
-          done(error);
-        }
+      function (jwtPayload, done) {
+        User.findOne({ _id: jwtPayload.id }).exec((err, user) => {
+          console.log('user=', user)
+          if (err) {
+             return done(err);
+          }
+          if (user) {
+             return done(null, user);
+          }
+        });
       }
     )
   );

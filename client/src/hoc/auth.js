@@ -3,10 +3,12 @@ import React, { useEffect } from "react";
 export default (SpecificComponent, option) => {
   const AuthenticationCheck = (props) => {
     useEffect(() => {
-      if (!Boolean(localStorage.getItem("user"))) {
-        props.history.push("/login");
+      if (option) {
+        if(!Boolean(localStorage.getItem("user"))){
+          props.history.push("/login");
+        }
       } else {
-        if (!option) {
+        if (Boolean(localStorage.getItem("user"))) {
           props.history.push("/");
         }
       }
