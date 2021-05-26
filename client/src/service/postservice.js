@@ -49,4 +49,17 @@ PostService.getPosts = async (token) => {
   }
   return resData;
 }
+
+PostService.deletePost = async (token, id) => {
+  let resData = {};
+  const config = {
+    headers: {'Authorization': `Bearer ${token}`},
+  };
+  try {
+    resData = await axios.delete(`/post?id=${id}`,config);
+  } catch (error) {
+    console.error(error);
+  }
+  return resData;
+}
 export default PostService;

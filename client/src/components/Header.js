@@ -1,15 +1,10 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useContext } from "react";
 import UserContext from "../components/UserContext";
 import { Link, useHistory } from "react-router-dom";
 import {
   AppBar,
-  ClickAwayListener,
   Toolbar,
-  Popper,
-  Paper,
-  Button,
   MenuItem,
-  MenuList,
   makeStyles,
 } from "@material-ui/core";
 import HomeIcon from "@material-ui/icons/Home";
@@ -32,7 +27,12 @@ function Header() {
   const classes = useStyles();
   const { isLoggedIn, signUserOut } = useContext(UserContext);
   const history = useHistory();
-  
+
+
+  const onClickLogout = () => {
+    signUserOut();
+  };
+
   const menuList = [
     {
       id : 1,
@@ -46,9 +46,6 @@ function Header() {
     }
   ];
 
-  const onClickLogout = () => {
-    signUserOut();
-  };
   return (
     <AppBar position="static" className={classes.root}>
       <Toolbar>

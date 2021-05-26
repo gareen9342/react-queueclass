@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Dropzone from "react-dropzone";
 import postService from "../service/postservice";
 
@@ -39,6 +39,7 @@ function FileUpload({ image, setImage }) {
           <img
             style={{ minWidth: "100%", minHeight: "100%" }}
             src={`http://localhost:5000/${image}`}
+            alt="card image"
             onClick={() => onClickImage(image)}
           />
         )}

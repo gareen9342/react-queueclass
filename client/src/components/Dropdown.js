@@ -1,7 +1,5 @@
 import React from 'react';
-import Button from '@material-ui/core/Button';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
+import {Button,Menu,MenuItem} from '@material-ui/core';
 
 export default function SimpleMenu({buttonText,menus}) {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -32,7 +30,7 @@ export default function SimpleMenu({buttonText,menus}) {
         keepMounted
         open={Boolean(anchorEl)}
         onClose={handleClose}
-      >{menus.map(x => <MenuItem onClick={x.onClickMenu}>{x.menuName}</MenuItem>)}
+      >{menus.map(x => <MenuItem onClick={x.onClickMenu} key={x.id}>{x.menuName}</MenuItem>)}
       </Menu>
     </div>
   );

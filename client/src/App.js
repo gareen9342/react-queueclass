@@ -16,7 +16,7 @@ import Write from "./pages/Write";
  * 먼저 컴포넌트를 호출하게 되면 컴포넌트가 html로 올라감
  */
 function App() {
-  const [user, setUser] = useState(Boolean(localStorage.getItem("user")));
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {

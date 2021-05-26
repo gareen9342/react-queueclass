@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState } from "react";
 import UserContext from "../components/UserContext";
 import {
   Avatar,
@@ -46,14 +46,8 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  const { signUserIn, isLoggedIn } = useContext(UserContext);
-
-  // useEffect(() => {
-  //   if (isLoggedIn) {
-  //     history.push("/");
-  //   }
-  // }, []);
-
+  const { signUserIn } = useContext(UserContext);
+  
   const onChangeEmail = (e) => {
     console.log(e.target.value);
     setEmail(e.target.value);

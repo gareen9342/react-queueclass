@@ -39,6 +39,7 @@ module.exports = (app) => {
       });
     });
   });
+
   // post 업로드
   app.post("/post", auth, (req, res, next) => {
 
@@ -60,10 +61,21 @@ module.exports = (app) => {
       if(result){
         res.json({success : true, data : result})
       }else{
-        res.json({succcess :false, errorMessage : "데이터가 존재하지 않습니다. "})
+        res.json({succcess :false, errorMessage : "데이터가 존재하지 않습니다."})
       }
     });
   });
 
-  //get single post
+  // delete single post
+  app.delete("/post", (req,res,next) => {
+    // console.log(req.query.id);
+    Post.updateOne({ id : req.query.id }, {$set : { deleted : 1}}).exec((err, result) => {
+      if(err) {
+        return res.json({success : false, errorMessage : "데이터를 삭제하는데에 실패했습니다. "});
+      }
+      if(result){
+        return res.json({success : true })
+      }
+    })
+  })
 };
