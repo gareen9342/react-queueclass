@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import UserContext from "../components/UserContext";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import {
   AppBar,
   ClickAwayListener,
@@ -13,6 +13,7 @@ import {
   makeStyles,
 } from "@material-ui/core";
 import HomeIcon from "@material-ui/icons/Home";
+import Dropdown from './Dropdown';
 const useStyles = makeStyles((theme) => ({
   root: {
     background: "#aaf0d1",
@@ -30,28 +31,20 @@ const useStyles = makeStyles((theme) => ({
 function Header() {
   const classes = useStyles();
   const { isLoggedIn, signUserOut } = useContext(UserContext);
-
-  const [open, setOpen] = useState(false);
-  const anchorRef = React.useRef();
-  const prevOpen = React.useRef(open);
-
-  useEffect(() => {
-    if (prevOpen.current === true && open === false) {
-      anchorRef.current.focus();
+  const history = useHistory();
+  
+  const menuList = [
+    {
+      id : 1,
+      menuName : "글쓰기",
+      onClickMenu : () => history.push("/write")
+    },
+    {
+      id : 2,
+      menuName : "로그아웃",
+      onClickMenu : onClickLogout
     }
-    prevOpen.current = open;
-  }, [open]);
-
-  const handleToggle = () => {
-    setOpen((prevOpen) => !prevOpen);
-  };
-
-  const handleClose = (event) => {
-    if (anchorRef.current && anchorRef.current.contains(event.target)) {
-      return;
-    }
-    setOpen(false);
-  };
+  ];
 
   const onClickLogout = () => {
     signUserOut();
@@ -63,38 +56,10 @@ function Header() {
           <HomeIcon />
         </Link>
         {isLoggedIn ? (
-          <div>
-            <Button
-              ref={anchorRef}
-              aria-controls={open ? "menu-list-grow" : undefined}
-              aria-haspopup="true"
-              onClick={handleToggle}
-              style={{ color: "#fff" }}
-            >
-              Menu
-            </Button>
-            <Popper
-              open={open}
-              anchorEl={anchorRef.current}
-              transition
-              disablePortal
-            >
-              <Paper>
-                <ClickAwayListener onClickAway={handleClose}>
-                  <MenuList
-                    autoFocusItem={open}
-                    id="menu-list-grow"
-                    className={classes.menuList}
-                  >
-                    <MenuItem>
-                      <Link to="/write">write</Link>
-                    </MenuItem>
-                    <MenuItem onClick={onClickLogout}>Logout</MenuItem>
-                  </MenuList>
-                </ClickAwayListener>
-              </Paper>
-            </Popper>
-          </div>
+          <Dropdown
+          buttonText={"메뉴"}
+          menus={menuList}
+          />
         ) : (
           <div>
             <MenuItem>

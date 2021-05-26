@@ -32,7 +32,7 @@ export default function SimpleMenu({buttonText,menus}) {
         keepMounted
         open={Boolean(anchorEl)}
         onClose={handleClose}
-      >{menus.map(x => <MenuItem>asdf</MenuItem>)}
+      >{menus.map(x => <MenuItem onClick={x.onClickMenu}>{x.menuName}</MenuItem>)}
       </Menu>
     </div>
   );
