@@ -56,7 +56,7 @@ module.exports = (app) => {
   //get posts
   app.get("/posts", auth, (req,res,next) => {
     Post.find({deleted : 0}).sort({ createdAt : -1, _id : 1}).populate("writer").exec((err, result)=>{
-      console.log(result)
+      
       if(result){
         res.json({success : true, data : result})
       }else{

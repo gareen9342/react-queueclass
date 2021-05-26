@@ -53,7 +53,7 @@ module.exports = () => {
       },
       function (jwtPayload, done) {
         User.findOne({ _id: jwtPayload.id }).exec((err, user) => {
-          console.log('user=', user)
+          // console.log('user=', user)
           if (err) {
              return done(err);
           }

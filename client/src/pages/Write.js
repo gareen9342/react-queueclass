@@ -17,7 +17,7 @@ function Write() {
   const onClickUpload = async () => {
     const { data : res } = await PostService.uploadPost(
       localStorage.getItem("token"),
-      { image, content, token : localStorage.getItem("token") }
+      { image, content }
     );
 
     if(res.success){

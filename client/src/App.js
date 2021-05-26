@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { BrowserRouter, Route, Switch, useHistory } from "react-router-dom";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { Reset } from "styled-reset";
 import Container from "@material-ui/core/Container";
 import Header from "./components/Header";
@@ -24,6 +24,7 @@ function App() {
       setIsLoggedIn(true);
     }
   }, [user]);
+  
   //====== 로그인, 로그아웃 함수 =======//
   const signUserIn = (userData, token) => {
     console.log("signUserIn 함수 호출됨");
@@ -55,7 +56,7 @@ function App() {
             <Route path="/login" exact component={Auth(Login, false)} />
             <Route path="/signup" exact component={Auth(Signup, false)} />
             <Route path="/write" exact component={Auth(Write, true)} />
-            <Route path="*">
+            <Route path="*"> {/* 404 */}
               <NoMatch />
             </Route>
           </Switch>

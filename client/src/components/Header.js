@@ -62,7 +62,6 @@ function Header() {
         <Link to="/" className={classes.homeLink}>
           <HomeIcon />
         </Link>
-        {console.log(isLoggedIn)}
         {isLoggedIn ? (
           <div>
             <Button
