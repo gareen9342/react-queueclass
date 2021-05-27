@@ -67,6 +67,7 @@ const Signup = (props) => {
   const onChangePassword = (e) => {
     setPassword(e.target.value);
   };
+
   const onSubmitSignup = async (e) => {
     e.preventDefault();
     try {
@@ -76,6 +77,7 @@ const Signup = (props) => {
         alert("회원가입에 성공했습니다. 로그인 페이지로 이동합니다. ");
         props.history.push("/login");
       }
+
       if (res.success === false) {
         setErrorMessage(res.errorMessage);
       }
