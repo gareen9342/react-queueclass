@@ -1,17 +1,19 @@
-const e = require("express");
+
 const Post = require("../models/Post"),
-  fs = require("fs"),
-  passport = require("passport"),
+  fs = require("fs"), //https://nodejs.org/api/fs.html
   multer = require("multer"),
   { auth } = require("../middleware/authenticate");
-
+/**
+ * fs ? fileSystem.
+ * filesystem 관련 라이브러리
+ */
 module.exports = (app) => {
   try {
-    fs.accessSync("uploads");
+    fs.accessSync("uploads"); // 첫 번째 인자로는 path를 받는데, 여기에 정의된 디렉토리에 접근 권한을 확인한다.
   } catch (err) {
     //노드를 이용해 폴더를 만들 수 있는 방법
-    console.log("uploads폴더가 없으므로 생성합니다.");
-    fs.mkdirSync("uploads");
+    console.log("uploads폴더가 없으므로 생성합니다."); 
+    fs.mkdirSync("uploads"); // 
   }
 
   var upload = multer({

@@ -42,6 +42,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 function Login() {
   const classes = useStyles();
+  
   const history = useHistory();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -49,12 +50,10 @@ function Login() {
   const { signUserIn } = useContext(UserContext);
   
   const onChangeEmail = (e) => {
-    console.log(e.target.value);
     setEmail(e.target.value);
   };
 
   const onChangePassword = (e) => {
-    console.log(e.target.value);
     setPassword(e.target.value);
   };
 

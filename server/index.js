@@ -34,7 +34,7 @@ mongoose.connect(
   }
 );
 
-app.use(passport.initialize());
+app.use(passport.initialize()); // req객체에 passport설정을 심어줌 
 passportConfig();
 
 app.use(

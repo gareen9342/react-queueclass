@@ -62,6 +62,7 @@ module.exports = (app) => {
   });
 
   const signToken = (user) => {
+    // 첫 번쨰 인수는 초큰의 내용, 두 번쨰 인수는 토큰의 비밀키, 세 번쨰 인수는 토큰의 설정
     return jwt.sign({ id: user._id, email: user.email }, "imsisecret", {expiresIn : "1h"});
   };
 };
